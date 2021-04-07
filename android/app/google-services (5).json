@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "85402795271",
+    "project_id": "pingpongmix-b7c2e",
+    "storage_bucket": "pingpongmix-b7c2e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85402795271:android:5ea9b4931c81f4d4da59a2",
+        "android_client_info": {
+          "package_name": "tkbtveveryday.pingpongmix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85402795271-8l367c0r0h526no0vq582jdalckc36m4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC50Ow8m_-ELA0PfZly-rYwEc8FoZy_Xs4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85402795271-8l367c0r0h526no0vq582jdalckc36m4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "85402795271-3jnhmfve1r9effkci8p9a1v2plvl8kve.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tkbtveveryday.pingpongmix"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
