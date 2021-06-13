@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tt_diary/add_book/add_book_model.dart';
 import 'package:tt_diary/signup/signup_model.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class SignUpPage extends StatelessWidget {
   @override

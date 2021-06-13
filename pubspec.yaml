@@ -8,25 +8,33 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
+module:androidX:
+  true
+
+
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
   provider: ^5.0.0
-  firebase_core: ^1.0.1  # add dependency for Firebase Core
-  cloud_firestore: ^1.0.1
-  firebase_analytics: ^7.1.1  # add dependency for Google Analytics for Firebase
-  firebase_auth: ^1.0.1
+
   google_sign_in: ^5.0.0
   intl: ^0.17.0
   font_awesome_flutter: ^8.12.0
   qr_flutter: ^4.0.0
-  firebase_crashlytics: ^1.0.0
-  firebase_storage: ^8.0.0
   quiver: ^3.0.0
   http: ^0.13.0
-  webview_flutter: ^0.3.0
+
+
+  firebase_analytics: ^7.1.1  # add dependency for Google Analytics for Firebase
+  firebase_auth: ^1.0.2
+  cloud_firestore: ^1.0.1
+  firebase_storage: ^8.0.2
+  firebase_core: ^1.0.3  # add dependency for Firebase Core
+  firebase_crashlytics: ^2.0.0
+
+
 
 
 
@@ -44,9 +52,8 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
-
   assets:
-    - images/pingpongmixlogo.png
+    - assets/images/pingpongmixlogo.png
 
 
 # To add custom fonts to your application, add a fonts section here,
@@ -65,3 +72,5 @@ flutter:
 
 # For details regarding fonts from package dependencies,
 # see https://flutter.dev/custom-fonts/#from-packages
+
+

@@ -17,8 +17,8 @@ class BottomNavigationPage extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.pink,
-        accentColor: Colors.black,
+        primarySwatch: Colors.cyan,
+        accentColor: Colors.cyanAccent,
         buttonTheme: ButtonThemeData(
             textTheme: ButtonTextTheme.primary,
             shape: RoundedRectangleBorder(
@@ -49,13 +49,13 @@ class BottomNavigationPage extends StatelessWidget {
                 BottomNavigationBarItem(
                   // アイコンとラベルは自由にカスタムしてください。
                   icon: Icon(
-                    Icons.person,
-                    color: Colors.pinkAccent,
+                    Icons.event_note_sharp,
+                    color: Colors.cyanAccent,
                   ),
-                  label: 'アカウント',
+                  label: 'ログ',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.school, color: Colors.purpleAccent),
+                  icon: Icon(Icons.school, color: Colors.cyan),
                   label: 'ルーム',
                 ),
               ],

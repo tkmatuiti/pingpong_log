@@ -3,16 +3,11 @@ import 'package:tt_diary/account/account_profile.dart';
 import 'package:tt_diary/account/signup_google.dart';
 import 'package:tt_diary/login/login_page.dart';
 import 'package:tt_diary/room/create_room_page.dart';
-import 'package:tt_diary/screens/EditAccountPagae.dart';
-
-import 'package:tt_diary/screens/tournament.dart';
 import 'package:tt_diary/book_list/book_list_page.dart';
-import 'package:tt_diary/signup/signup_page.dart';
 
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    theme:
     ThemeData(
       brightness: Brightness.dark,
       primarySwatch: Colors.pink,
@@ -106,7 +101,7 @@ class MyHomePage extends StatelessWidget {
           onPressed: () async {
             final result = await Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => TournamentPage(),
+                builder: (context) => CreateRoomPage(),
               ),
             );
             print(result);

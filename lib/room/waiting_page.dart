@@ -54,7 +54,7 @@ class _WaitingPageState extends State<WaitingPage> {
                   SnackBar(
                     content: Text('Copy!'),
                   );
-                  Scaffold.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text('copy!'),
                     duration: const Duration(seconds: 1),
                     action: SnackBarAction(

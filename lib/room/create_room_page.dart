@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tt_diary/account/signup_google.dart';
+import 'package:tt_diary/point_counter.dart';
+import 'package:tt_diary/result/result_page.dart';
 import 'package:tt_diary/room/waiting_page.dart';
 
 enum tournamentOrLeague { tournament, league }
@@ -16,6 +19,7 @@ class _State extends State<CreateRoomPage> {
   var _double = false;
   var _other = false;
   var _numberOfGame = 1.0;
+  var _numberOfPoint = 1.0;
   var torOrLea = tournamentOrLeague.tournament;
   void _onChanged(tournamentOrLeague value) {
     setState(() {
@@ -77,7 +81,7 @@ class _State extends State<CreateRoomPage> {
                 child: RadioListTile(
                   secondary: Icon(Icons.border_all),
                   controlAffinity: ListTileControlAffinity.trailing,
-                  title: Text('総当たりリーグ戦'),
+                  title: Text('リーグ戦'),
                   value: tournamentOrLeague.league,
                   groupValue: torOrLea,
                   onChanged: _onChanged,
@@ -97,8 +101,8 @@ class _State extends State<CreateRoomPage> {
                       _other = false;
                     });
                   },
-                  activeColor: Colors.black,
-                  checkColor: Colors.amberAccent,
+                  activeColor: Colors.white24,
+                  checkColor: Colors.cyanAccent,
                 ),
               ),
               GestureDetector(
@@ -115,8 +119,8 @@ class _State extends State<CreateRoomPage> {
                       _double = value;
                     });
                   },
-                  activeColor: Colors.black,
-                  checkColor: Colors.amberAccent,
+                  activeColor: Colors.white24,
+                  checkColor: Colors.cyanAccent,
                 ),
               ),
               CheckboxListTile(
@@ -131,14 +135,13 @@ class _State extends State<CreateRoomPage> {
                     _other = value;
                   });
                 },
-                activeColor: Colors.black,
-                checkColor: Colors.amberAccent,
+                activeColor: Colors.white24,
+                checkColor: Colors.cyanAccent,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Text(
                   'ゲーム数',
-                  style: TextStyle(color: Colors.black45),
                 ),
               ),
               Slider(
@@ -150,6 +153,46 @@ class _State extends State<CreateRoomPage> {
                 max: 7.0,
                 divisions: 6,
                 label: '$_numberOfGame',
+              ),
+              Slider(
+                value: _numberOfPoint,
+                onChanged: (d) {
+                  setState(() => _numberOfPoint = d);
+                },
+                min: 1.0,
+                max: 21.0,
+                divisions: 20,
+                label: '$_numberOfPoint',
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 80.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () async => await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PointCounter(),
+                        )),
+                    icon: Icon(Icons.person),
+                    label: Text('得点板'),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () async => await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResultPage(),
+                        )),
+                    icon: Icon(Icons.person),
+                    label: Text('試合結果を入力'),
+                  ),
+                ),
               ),
               ElevatedButton.icon(
                 onPressed: () async => await Navigator.push(
