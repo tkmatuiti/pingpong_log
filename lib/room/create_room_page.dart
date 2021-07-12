@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tt_diary/account/signup_google.dart';
-import 'package:tt_diary/point_counter.dart';
+import 'package:tt_diary/point_counter/point_counter.dart';
 import 'package:tt_diary/result/result_page.dart';
 import 'package:tt_diary/room/waiting_page.dart';
 
