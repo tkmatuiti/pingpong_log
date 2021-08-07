@@ -3,22 +3,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tt_diary/model/botom_navigate_model.dart';
+import 'package:tt_diary/point_counter/point_counter.dart';
 import 'package:tt_diary/room/create_room_page.dart';
 import 'package:tt_diary/screens/my_home_page.dart';
 
 class BottomNavigationPage extends StatelessWidget {
   // 表示するページをリスト形式で宣言します
   List<Widget> _pageList = <Widget>[
-    CreateRoomPage(),
     MyHomePage(),
+    CreateRoomPage(),
+    PointCounter(),
+
+    // SearchPage(),
   ];
 
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.cyan,
-        accentColor: Colors.cyanAccent,
+        primarySwatch: Colors.indigo,
+        buttonColor: Colors.indigo,
+        accentColor: Colors.orange,
         buttonTheme: ButtonThemeData(
             textTheme: ButtonTextTheme.primary,
             shape: RoundedRectangleBorder(
@@ -50,13 +55,16 @@ class BottomNavigationPage extends StatelessWidget {
                   // アイコンとラベルは自由にカスタムしてください。
                   icon: Icon(
                     Icons.event_note_sharp,
-                    color: Colors.cyanAccent,
                   ),
-                  label: 'ログ',
+                  label: '投稿',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.school, color: Colors.cyan),
-                  label: 'ルーム',
+                  icon: Icon(Icons.school),
+                  label: '戦績',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.control_point_duplicate, ),
+                  label: '得点板',
                 ),
               ],
             ),

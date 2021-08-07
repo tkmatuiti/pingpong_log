@@ -8,28 +8,22 @@ import 'package:tt_diary/book_list/book_list_page.dart';
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ThemeData(
-      brightness: Brightness.dark,
-      primarySwatch: Colors.pink,
-      accentColor: Colors.black,
-      buttonTheme: ButtonThemeData(
-          textTheme: ButtonTextTheme.primary,
-          shape: RoundedRectangleBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(11)))),
-      fontFamily: "KiwiMaru",
-    );
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 50,
           title: Text(
-            'TT_DIARY',
-            style: TextStyle(fontFamily: 'TrainOne', fontSize: 30),
+            'PingPongMix',
+            style: TextStyle(fontFamily: 'KiwiMaru', fontSize: 30),
           ),
           actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.person),
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AccountProfile())),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.person),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AccountProfile())),
+              ),
             ),
           ],
         ),
