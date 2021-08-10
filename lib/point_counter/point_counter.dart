@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tt_diary/room/create_room_page.dart';
+import 'package:flutter/services.dart';
 
 import 'edit_counter_page.dart';
 
@@ -12,91 +12,108 @@ class PointCounter extends StatefulWidget {
 }
 
 class _PointCounterState extends State<PointCounter> {
+
+
+
   String bookTitle = 'Sotaro VS Takashi';
 
-  var _a_point = 0;
-  var _b_point = 0;
+  int _aPoint = 0;
+  int _bPoint = 0;
 
-  var _a_game = 0;
-  var _b_game = 0;
-
+  int _aGame = 0;
+  int _bGame = 0;
 
   void _incrementAPoint() {
     setState(() {
-      _a_point++;
+      _aPoint++;
     });
   }
 
   void _incrementBPoint() {
     setState(() {
-      _b_point++;
+      _bPoint++;
     });
   }
 
   void _resetPoints() {
     setState(() {
-      _a_point = 0;
-      _b_point = 0;
+      _aPoint = 0;
+      _bPoint = 0;
     });
   }
 
   void _incrementAGame() {
     setState(() {
-      _a_point++;
+      _aPoint++;
     });
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _resetPoints();
-        _a_game++;
+        _aGame++;
       });
     });
   }
 
   void _incrementBGame() {
     setState(() {
-      _b_point++;
+      _bPoint++;
     });
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _resetPoints();
-        _b_game++;
+        _bGame++;
       });
     });
   }
 
   void _decrementAPoint() {
     setState(() {
-      _a_point--;
+      _aPoint--;
     });
   }
 
   void _decrementBPoint() {
     setState(() {
-      _b_point--;
+      _bPoint--;
     });
   }
 
   void _decrementAGame() {
     setState(() {
-      _a_game--;
+      _aGame--;
     });
   }
 
   void _decrementBGame() {
     setState(() {
-      _b_game--;
+      _bGame--;
     });
   }
 
   void _resetGames() {
     setState(() {
-      _a_game = 0;
-      _b_game = 0;
+      _aGame = 0;
+      _bGame = 0;
     });
   }
 
+  String _toStringAGame(){
+    final _resultAgame = _aGame.toString();
+    return _resultAgame;
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
+    //向き固定
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setPreferredOrientations([
+      //縦固定
+      // DeviceOrientation.portraitUp,
+      //横固定
+      DeviceOrientation.landscapeLeft,
+    ]);
     var pointColor = Colors.orange;
     return SafeArea(
       child: Scaffold(
@@ -105,17 +122,16 @@ class _PointCounterState extends State<PointCounter> {
           actions: [
             IconButton(
               icon: Icon(Icons.settings),
-              onPressed: () =>Navigator.push(context,
+              onPressed: () =>Navigator.push<Route>(context,
                   MaterialPageRoute(builder: (context)=> EditCounterPage(),))
             ),
             IconButton(
               icon: Icon(Icons.event_note),
               onPressed: () =>
                   FirebaseFirestore.instance.collection('books').add({
-                    'title': '$bookTitle \n $_a_game  - $_b_game',
+                    'title': '$bookTitle $_aGame  - $_bGame',
                     'create': Timestamp.now(),
-
-                  }),
+                  },),
             ),
           ],
         ),
@@ -129,7 +145,7 @@ class _PointCounterState extends State<PointCounter> {
                 flex: 3,
                 child: InkWell(
                   onTap: () {
-                    if (_a_point >= 10 && _a_point >= _b_point + 1) {
+                    if (_aPoint >= 10 && _aPoint >= _bPoint + 1) {
                       _incrementAGame();
                     } else {
                       _incrementAPoint();
@@ -142,10 +158,10 @@ class _PointCounterState extends State<PointCounter> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       padding: const EdgeInsets.all(20),
-                      color: Colors.indigo,
+                      color: Color.fromRGBO(1, 86, 117, 1),
                       child: Column(
                         children: [
-                          Text('$_a_point', style: TextStyle(fontSize: 80),),
+                          Text('$_aPoint', style: TextStyle(fontSize: 80),),
                           Text('sotaro', style: TextStyle(fontSize: 30,
                               color: pointColor),),
                         ],
@@ -166,11 +182,11 @@ class _PointCounterState extends State<PointCounter> {
                             left: 8.0, top: 8.0, right: 8.0, bottom: 8.0),
                         child: Container(
                           padding: const EdgeInsets.all(20),
-                          color: Colors.indigo,
+                          color: Color.fromRGBO(1, 86, 117, 1),
                           child: Column(
                             children: [
 
-                              Text('$_a_game', style: TextStyle(fontSize: 30),),
+                              Text('$_aGame', style: TextStyle(fontSize: 30),),
 
                             ],
                           ),
@@ -185,7 +201,7 @@ class _PointCounterState extends State<PointCounter> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           padding: const EdgeInsets.all(20),
-                          color: Colors.indigo,
+                          color: Color.fromRGBO(1, 86, 117, 1),
                           child: Column(
                             children: [
                               Column(
@@ -218,34 +234,22 @@ class _PointCounterState extends State<PointCounter> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           padding: const EdgeInsets.all(20),
-                          color: Colors.indigo,
-                          child: Text('$_b_game',
+                          color: Color.fromRGBO(1, 86, 117, 1),
+                          child: Text('$_bGame',
                                     style: TextStyle(fontSize: 30),),
                         ),
                       ),
                     ),
-                    InkWell(
-                      onLongPress: () {
-                        _resetGames();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          color: Colors.indigo,
-                          child: Column(
-                            children: [
-                              Column(
-                                children: [
-                                  Text('reset',
-                                    style: TextStyle(fontSize: 20),),
-
-                                ],
-                              ),
-
-                            ],
-                          ),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        icon: Icon(Icons.note_add_outlined,size: 40,),
+                        tooltip:'ノートに記入',
+                        onPressed: () =>
+                            FirebaseFirestore.instance.collection('books').add({
+                              'title': '$bookTitle \n $_aGame  - $_bGame',
+                              'create': Timestamp.now(),
+                            }),
                       ),
                     ),
                   ],
@@ -255,7 +259,7 @@ class _PointCounterState extends State<PointCounter> {
                 flex: 3,
                 child: InkWell(
                   onTap: () {
-                    if (_b_point >= 10 && _b_point >= _a_point + 1) {
+                    if (_bPoint >= 10 && _bPoint >= _aPoint + 1) {
                       _incrementBGame();
                     } else {
                       _incrementBPoint();
@@ -268,10 +272,10 @@ class _PointCounterState extends State<PointCounter> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       padding: const EdgeInsets.all(20),
-                      color: Colors.indigo,
+                      color: Color.fromRGBO(1, 86, 117, 1),
                       child: Column(
                         children: [
-                          Text('$_b_point', style: TextStyle(fontSize: 80),),
+                          Text('$_bPoint', style: TextStyle(fontSize: 80),),
                           Text('sotaro', style: TextStyle(fontSize: 30,
                               color: pointColor),),
                         ],

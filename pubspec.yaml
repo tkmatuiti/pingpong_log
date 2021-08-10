@@ -2,7 +2,6 @@ name: tt_diary
 description: A new Flutter application.
 
 publish_to:
-
 version: 1.0.0+1
 
 environment:
@@ -17,6 +16,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+
   provider: ^5.0.0
 
   google_sign_in: ^5.0.0
@@ -27,13 +27,20 @@ dependencies:
   http: ^0.13.0
 
 
-  firebase_analytics: ^7.1.1  # add dependency for Google Analytics for Firebase
-  firebase_auth: ^1.0.2
-  cloud_firestore: ^1.0.1
+   # add dependency for Google Analytics for Firebase
+  firebase_auth: ^3.0.1
+  cloud_firestore: ^2.4.0
   firebase_storage: ^8.0.2
-  firebase_core: ^1.0.3  # add dependency for Firebase Core
-  firebase_crashlytics: ^2.0.0
+  firebase_core: ^1.4.0  # add dependency for Firebase Core
+  firebase_crashlytics: ^2.1.1
 
+  flutter_launcher_icons: any
+  pedantic_mono: ^1.13.0+3
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
 
 
 
@@ -53,8 +60,9 @@ flutter:
 
   uses-material-design: true
   assets:
-    - assets/images/pingpongmixlogo.png
+    - assets/images/
     - assets/sounds/
+    - assets/icon/
 
 
 # To add custom fonts to your application, add a fonts section here,

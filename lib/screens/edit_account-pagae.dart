@@ -10,19 +10,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/pingpongmixyellow.png',
-            fit: BoxFit.contain,
-            height: 32,
+          title: Text('アカウント編集'),
           ),
-          Container(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('PingPongアカウントの編集'))
-        ],
-      )),
       body: Center(
         child: Row(
           children: <Widget>[

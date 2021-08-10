@@ -1,18 +1,25 @@
 // bottom_navigation_bar.dart
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tt_diary/book_list/book_list_page.dart';
 import 'package:tt_diary/model/botom_navigate_model.dart';
 import 'package:tt_diary/point_counter/point_counter.dart';
 import 'package:tt_diary/room/create_room_page.dart';
 import 'package:tt_diary/screens/my_home_page.dart';
+import 'package:tt_diary/screens/post_page.dart';
 
 class BottomNavigationPage extends StatelessWidget {
   // 表示するページをリスト形式で宣言します
   List<Widget> _pageList = <Widget>[
-    MyHomePage(),
+    BookListPage(),
+    MyHomePage(),//いつか消す。
     CreateRoomPage(),
     PointCounter(),
+    // ChatListPage(),
+
 
     // SearchPage(),
   ];
@@ -20,21 +27,33 @@ class BottomNavigationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        primaryColor: const Color.fromRGBO(1, 86, 117, 1),
         brightness: Brightness.dark,
-        primarySwatch: Colors.indigo,
-        buttonColor: Colors.indigo,
+        primaryColorDark: const Color.fromRGBO(1, 86, 117, 1),
+        canvasColor:const Color.fromRGBO(1, 49, 67, 1),
+        buttonColor: const Color.fromRGBO(1, 86, 117, 1),
+        // elevatedButtonTheme: ElevatedButtonThemeData(
+        //   style: ElevatedButton.styleFrom(
+        //     primary: const Color.fromRGBO(1, 86, 117, 1),
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(25),
+        //   ),
+        // ),
+        splashColor: Colors.orange,
+        cardColor: const Color.fromRGBO(1, 86, 117, 1),
         accentColor: Colors.orange,
-        buttonTheme: ButtonThemeData(
+        buttonTheme: const ButtonThemeData(
             textTheme: ButtonTextTheme.primary,
+            buttonColor: Color.fromRGBO(1, 86, 117, 1),
             shape: RoundedRectangleBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(11)))),
+                borderRadius: BorderRadius.all(Radius.circular(11),),),),
         fontFamily: "KiwiMaru",
       ),
       home: ChangeNotifierProvider<BottomNavigationModel>(
         create: (_) => BottomNavigationModel(),
         child:
-            Consumer<BottomNavigationModel>(builder: (context, model, child) {
-          return Scaffold(
+            Consumer<BottomNavigationModel>(builder: (context, model, child){
+              return Scaffold(
             // 今選択している番号のページを呼び出します。
             body: _pageList[model.selectedIndex],
             bottomNavigationBar: BottomNavigationBar(
@@ -51,18 +70,25 @@ class BottomNavigationPage extends StatelessWidget {
               },
               items: [
                 // フッターアイコンの要素を並べています 最低2個以上必要みたいです。
-                BottomNavigationBarItem(
+                const BottomNavigationBarItem(
+                  // アイコンとラベルは自由にカスタムしてください。
+                  icon: Icon(
+                    Icons.timeline,
+                  ),
+                  label: '投稿',
+                ),
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.school),
+                  label: '戦績',
+                ),
+                const BottomNavigationBarItem(
                   // アイコンとラベルは自由にカスタムしてください。
                   icon: Icon(
                     Icons.event_note_sharp,
                   ),
-                  label: '投稿',
+                  label: '消す',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.school),
-                  label: '戦績',
-                ),
-                BottomNavigationBarItem(
+                const BottomNavigationBarItem(
                   icon: Icon(Icons.control_point_duplicate, ),
                   label: '得点板',
                 ),

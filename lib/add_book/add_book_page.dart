@@ -61,15 +61,15 @@ class AddBookPage extends StatelessWidget {
       await model.addBookToFirebase();
       await showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: (context) {
           return AlertDialog(
-            title: Text('Saved!'),
+            title: const Text('Saved!'),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.pop(context);
                 },
+                child: const Text('OK'),
               ),
             ],
           );
@@ -77,16 +77,16 @@ class AddBookPage extends StatelessWidget {
       );
       Navigator.of(context).pop();
     } catch (e) {
-      showDialog(
+      await showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: (context) {
           return AlertDialog(
             title: Text(e.toString()),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.pop(context);
                 },
               ),
             ],

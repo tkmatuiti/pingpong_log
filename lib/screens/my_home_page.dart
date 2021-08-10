@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tt_diary/account/account_profile.dart';
 import 'package:tt_diary/account/signup_google.dart';
 import 'package:tt_diary/login/login_page.dart';
 import 'package:tt_diary/room/create_room_page.dart';
 import 'package:tt_diary/book_list/book_list_page.dart';
 
+import 'edit_account-pagae.dart';
+
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //向き固定
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setPreferredOrientations([
+      //縦固定
+      DeviceOrientation.portraitUp,
+      //横固定
+      // DeviceOrientation.landscapeLeft,
+    ]);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 50,
-          title: Text(
+          title: const Text(
             'PingPongMix',
             style: TextStyle(fontFamily: 'KiwiMaru', fontSize: 30),
           ),
@@ -20,17 +31,18 @@ class MyHomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: IconButton(
-                icon: Icon(Icons.person),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AccountProfile())),
+                icon: const Icon(Icons.person),
+                onPressed: () => Navigator.push<Route>(context,
+                    MaterialPageRoute<Route>(builder: (context) => EditAccountPage())),
               ),
             ),
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +55,7 @@ class MyHomePage extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => BookListPage())),
                         icon: Icon(Icons.wb_incandescent),
-                        label: Text('日々の気付き')),
+                        label: const Text('日々の気付き')),
                   ),
                   Expanded(
                     child: ElevatedButton.icon(
@@ -93,8 +105,8 @@ class MyHomePage extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            final result = await Navigator.of(context).push(
-              MaterialPageRoute(
+            final dynamic result = await Navigator.of(context).push<dynamic>(
+              MaterialPageRoute<dynamic>(
                 builder: (context) => CreateRoomPage(),
               ),
             );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tt_diary/point_counter/point_counter.dart';
 import 'package:tt_diary/result/result_page.dart';
 import 'package:tt_diary/room/waiting_page.dart';
@@ -28,6 +29,14 @@ class _State extends State<CreateRoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    //向き固定
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setPreferredOrientations([
+      //縦固定
+      DeviceOrientation.portraitUp,
+      //横固定
+      // DeviceOrientation.landscapeLeft,
+    ]);
     return Scaffold(
       appBar: AppBar(
         title: Text('CreateRoomPage'),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tt_diary/book_list/book_list_model.dart';
 import 'package:tt_diary/model/book.dart';
@@ -7,12 +8,20 @@ import 'package:tt_diary/add_book/add_book_page.dart';
 class BookListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //向き固定
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setPreferredOrientations([
+    //縦固定
+    DeviceOrientation.portraitUp,
+    //横固定
+    // DeviceOrientation.landscapeLeft,
+    ]);
     return ChangeNotifierProvider<BookListModel>(
       create: (_) => BookListModel()..fetchBooks(),
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('TT-Diary'),
+            title: Text('Bookリスト'),
             actions: <Widget>[
               Consumer<BookListModel>(builder: (context, model, child) {
                 return IconButton(
@@ -43,7 +52,7 @@ class BookListPage extends StatelessWidget {
                         onPressed: () async {
                           await Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            MaterialPageRoute<dynamic>(
                               builder: (context) => AddBookPage(
                                 book: book,
                               ),
@@ -109,7 +118,7 @@ Future deleteBook(BuildContext context, BookListModel model, Book book) async {
       },
     );
   } catch (e) {
-    showDialog(
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(

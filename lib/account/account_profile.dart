@@ -3,23 +3,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AccountProfile extends StatefulWidget {
+class AccountProfilePage extends StatefulWidget {
   final User userData; //finalしてもいいのかな？
 
-  AccountProfile({Key key, this.userData}) : super(key: key);
+  AccountProfilePage({Key key, this.userData}) : super(key: key);
 
   @override
-  _AccountProfileState createState() => _AccountProfileState(userData);
+  _AccountProfilePageState createState() => _AccountProfilePageState(userData);
 }
 
-class _AccountProfileState extends State<AccountProfile> {
+class _AccountProfilePageState extends State<AccountProfilePage> {
   User userData;
-  String name = "高畠";
+  String name = 'e';
   String email; //email と名前は分けるセキュリティレベルが違う
   String photoUrl;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  _AccountProfileState(User userData) {
+  _AccountProfilePageState(User userData) {
     this.userData = userData;
     this.name = userData.displayName;
     this.email = userData.email;
@@ -40,7 +40,7 @@ class _AccountProfileState extends State<AccountProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ユーザー情報"),
+        title: const Text("ユーザー情報"),
       ),
       body: Center(
         child: Column(
@@ -49,21 +49,22 @@ class _AccountProfileState extends State<AccountProfile> {
               Image.network(this.photoUrl),
               Text(
                 this.name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                 ),
               ),
               Text(
+                // ignore: unnecessary_this
                 this.email,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                 ),
               ),
               ElevatedButton(
-                child: Text('Sign Out Google'),
                 onPressed: () {
-                  _handleSignOut().catchError((e) => print(e));
+                  _handleSignOut().catchError(() => print('e'));
                 },
+                child: const Text('Sign Out Google'),
               ),
             ]),
       ),

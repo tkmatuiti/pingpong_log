@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Match{
-  Match(DocumentSnapshot doc) {
+  Match(DocumentSnapshot<Map<String,dynamic>> doc) {
     matchID = doc.id; //idはdocumentIDだった
-    title = doc.data()['title'];
+    title = doc.data()['title'].toString();
   }
   String matchID;
   String playerAName;
