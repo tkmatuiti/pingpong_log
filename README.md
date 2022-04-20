@@ -1,4 +1,4 @@
-# pingpongmix
+# pingponglog
 
 we are praying tabletennis
 
