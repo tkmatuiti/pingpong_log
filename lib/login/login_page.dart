@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tt_diary/add_book/add_book_model.dart';
 
 import 'login_model.dart';
 
@@ -44,7 +43,7 @@ class LoginPage extends StatelessWidget {
                         onPressed: () async {
                           try {
                             await model.login();
-                            showDialog(
+                            await showDialog<LoginPage>(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
@@ -61,7 +60,7 @@ class LoginPage extends StatelessWidget {
                               },
                             );
                           } catch (e) {
-                            showDialog(
+                            await showDialog<LoginPage>(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
@@ -88,85 +87,4 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-
-  Future addBook(AddBookModel model, BuildContext context) async {
-    try {
-      //add book to　firestore
-      await model.addBookToFirebase();
-      await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Saved!'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-      Navigator.of(context).pop();
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(e.toString()),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-//todo
-  // Future updateBook(AddBookModel model, BuildContext context) async {
-  //   try {
-  //     await model.updateBook(book);
-  //     await showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text('UPDATE!'),
-  //           actions: <Widget>[
-  //             FlatButton(
-  //               child: Text('OK'),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //     Navigator.of(context).pop();
-  //   } catch (e) {
-  //     showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text(e.toString()),
-  //           actions: <Widget>[
-  //             FlatButton(
-  //               child: Text('OK'),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
 }

@@ -4,10 +4,9 @@ import 'package:tt_diary/result/result_page.dart';
 import 'package:tt_diary/room/waiting_page.dart';
 
 enum tournamentOrLeague { tournament, league }
-
-enum singlesOrDoubles { singles , doubles}
-
-
+enum singlesOrDoubles { singles, doubles }
+final todayRivalTextController = TextEditingController();
+final titleTextController = TextEditingController();
 
 class EditCounterPage extends StatefulWidget {
   @override
@@ -20,16 +19,17 @@ class _State extends State<EditCounterPage> {
   final now = DateTime.now();
   var _numberOfGame = 5.0;
   var _numberOfPoint = 11.0;
-  var torOrLea = tournamentOrLeague.tournament;
+  var _torOrLea = tournamentOrLeague.tournament;
+
   void _onChangedTournamentOrLeague(tournamentOrLeague value) {
     setState(() {
-      torOrLea = value;
+      _torOrLea = value;
     });
   }
+
   var sinOrDoub = singlesOrDoubles.singles;
-  void _onChangedSinglesOrDoubles(
-      singlesOrDoubles value
-      ){
+
+  void _onChangedSinglesOrDoubles(singlesOrDoubles value) {
     setState(() {
       sinOrDoub = value;
     });
@@ -48,6 +48,20 @@ class _State extends State<EditCounterPage> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: <Widget>[
+                TextField(
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.create),
+                    labelText: 'タイトル',
+                  ),
+                  controller: titleTextController,
+                ),
+                const TextField(
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.people),
+                    labelText: '参加可能人数',
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
                 GestureDetector(
                   onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
                   child: RadioListTile(
@@ -70,8 +84,16 @@ class _State extends State<EditCounterPage> {
                     onChanged: _onChangedSinglesOrDoubles,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                TextField(
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.people_outline),
+                    border: InputBorder.none,
+                    hintText: '対戦相手の名前',
+                  ),
+                  controller: todayRivalTextController,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10.0),
                   child: Text(
                     'ゲーム数',
                   ),
@@ -81,20 +103,42 @@ class _State extends State<EditCounterPage> {
                   onChanged: (d) {
                     setState(() => _numberOfGame = d);
                   },
-                  min: 1.0,
-                  max: 7.0,
+                  min: 1,
+                  max: 7,
                   divisions: 6,
-                  label: '$_numberOfGame' ,
+                  label: '$_numberOfGame',
                 ),
                 Slider(
                   value: _numberOfPoint,
                   onChanged: (d) {
                     setState(() => _numberOfPoint = d);
                   },
-                  min: 1.0,
-                  max: 21.0,
+                  min: 1,
+                  max: 21,
                   divisions: 20,
                   label: '$_numberOfPoint',
+                ),
+                GestureDetector(
+                  onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                  child: RadioListTile(
+                    secondary: const Icon(Icons.view_comfortable),
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    title: Text('リーグ戦'),
+                    value: tournamentOrLeague.league,
+                    groupValue: _torOrLea,
+                    onChanged: _onChangedTournamentOrLeague,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                  child: RadioListTile(
+                    secondary: const Icon(Icons.cell_tower),
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    title: const Text('トーナメント戦'),
+                    value: tournamentOrLeague.tournament,
+                    groupValue: _torOrLea,
+                    onChanged: _onChangedTournamentOrLeague,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 80.0),
@@ -104,10 +148,12 @@ class _State extends State<EditCounterPage> {
                       onPressed: () async => await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PointCounter(),
+                            builder: (context) => PointCounter(
+                                titleTextController.text,
+                                todayRivalTextController.text),
                           )),
-                      icon: Icon(Icons.person),
-                      label: Text('得点板に戻る'),
+                      icon: const Icon(Icons.person),
+                      label: const Text('得点板に戻る'),
                     ),
                   ),
                 ),

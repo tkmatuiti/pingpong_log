@@ -23,7 +23,7 @@ class SignUpModel extends ChangeNotifier {
         .user;
     final email = user.email;
 
-    await FirebaseFirestore.instance.collection('users').add({
+    await FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
       "email": email,
       'create': Timestamp.now(),
     });

@@ -59,7 +59,7 @@ class AddBookPage extends StatelessWidget {
     try {
       //add book to　firestore
       await model.addBookToFirebase();
-      await showDialog(
+      await showDialog<AddBookPage>(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -75,9 +75,8 @@ class AddBookPage extends StatelessWidget {
           );
         },
       );
-      Navigator.of(context).pop();
     } catch (e) {
-      await showDialog(
+      await showDialog<AddBookPage>(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -94,12 +93,13 @@ class AddBookPage extends StatelessWidget {
         },
       );
     }
+    Navigator.of(context).pop();
   }
 
   Future updateBook(AddBookModel model, BuildContext context) async {
     try {
       await model.updateBook(book);
-      await showDialog(
+      await showDialog<AddBookPage>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -117,7 +117,7 @@ class AddBookPage extends StatelessWidget {
       );
       Navigator.of(context).pop();
     } catch (e) {
-      showDialog(
+      await showDialog<AddBookPage>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(

@@ -12,8 +12,6 @@ class PostPage extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       //縦固定
       DeviceOrientation.portraitUp,
-      //横固定
-      // DeviceOrientation.landscapeLeft,
     ]);
     return Scaffold(
       appBar: Header(),

@@ -1,21 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:tt_diary/book_list/book_list_page.dart';
 
 import 'edit_counter_page.dart';
 
 class PointCounter extends StatefulWidget {
-  const PointCounter({Key key}) : super(key: key);
+  PointCounter(this.title, this.rivalName, {Key key}) : super(key: key);
+  String rivalName;
+  String title;
 
   @override
-  _PointCounterState createState() => _PointCounterState();
+  _PointCounterState createState() => _PointCounterState(title, rivalName);
 }
 
+DateTime now = DateTime.now();
+DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+String date = outputFormat.format(now);
+
 class _PointCounterState extends State<PointCounter> {
+  _PointCounterState(this.bookTitle, this.rivalNameText);
 
-
-
-  String bookTitle = 'Sotaro VS Takashi';
+  String bookTitle;
+  String rivalNameText;
 
   int _aPoint = 0;
   int _bPoint = 0;
@@ -46,7 +54,7 @@ class _PointCounterState extends State<PointCounter> {
     setState(() {
       _aPoint++;
     });
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 1), () {
       setState(() {
         _resetPoints();
         _aGame++;
@@ -58,7 +66,7 @@ class _PointCounterState extends State<PointCounter> {
     setState(() {
       _bPoint++;
     });
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 1), () {
       setState(() {
         _resetPoints();
         _bGame++;
@@ -97,20 +105,19 @@ class _PointCounterState extends State<PointCounter> {
     });
   }
 
-  String _toStringAGame(){
-    final _resultAgame = _aGame.toString();
-    return _resultAgame;
+  void noteLog(String date, String rivalNameText, String bookTitle, int _aGame,
+      int _bGame) async {
+    await FirebaseFirestore.instance.collection('books').add(<String, dynamic>{
+      'title': '$date $bookTitle vs$rivalNameText \n'
+          '$_aGame-$_bGame',
+      'create': Timestamp.now(),
+    });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-    //向き固定
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([
-      //縦固定
-      // DeviceOrientation.portraitUp,
       //横固定
       DeviceOrientation.landscapeLeft,
     ]);
@@ -118,21 +125,19 @@ class _PointCounterState extends State<PointCounter> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(bookTitle),
+          title: Text('$bookTitle vs $rivalNameText'),
           actions: [
             IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () =>Navigator.push<Route>(context,
-                  MaterialPageRoute(builder: (context)=> EditCounterPage(),))
-            ),
+                icon: Icon(Icons.settings),
+                onPressed: () => Navigator.push<Route>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditCounterPage(),
+                    ))),
             IconButton(
-              icon: Icon(Icons.event_note),
-              onPressed: () =>
-                  FirebaseFirestore.instance.collection('books').add({
-                    'title': '$bookTitle $_aGame  - $_bGame',
-                    'create': Timestamp.now(),
-                  },),
-            ),
+                icon: Icon(Icons.event_note),
+                onPressed: () =>
+                    noteLog(date, rivalNameText, bookTitle, _aGame, _bGame)),
           ],
         ),
         body: Padding(
@@ -151,7 +156,8 @@ class _PointCounterState extends State<PointCounter> {
                       _incrementAPoint();
                     }
                   },
-                  onLongPress: () { //todo tapdownに対応したい
+                  onLongPress: () {
+                    //todo tapdownに対応したい
                     _decrementAPoint();
                   },
                   child: Padding(
@@ -161,20 +167,26 @@ class _PointCounterState extends State<PointCounter> {
                       color: Color.fromRGBO(1, 86, 117, 1),
                       child: Column(
                         children: [
-                          Text('$_aPoint', style: TextStyle(fontSize: 80),),
-                          Text('sotaro', style: TextStyle(fontSize: 30,
-                              color: pointColor),),
+                          Text(
+                            '$_aPoint',
+                            style: TextStyle(fontSize: 80),
+                          ),
+                          Text(
+                            'sotaro',
+                            style: TextStyle(fontSize: 30, color: pointColor),
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
-              ), Expanded(
+              ),
+              Expanded(
                 flex: 2,
                 child: Column(
                   children: [
                     InkWell(
-                      onLongPress: () { //todo tapdownに対応したい
+                      onLongPress: () {
                         _decrementAGame();
                       },
                       child: Padding(
@@ -185,9 +197,10 @@ class _PointCounterState extends State<PointCounter> {
                           color: Color.fromRGBO(1, 86, 117, 1),
                           child: Column(
                             children: [
-
-                              Text('$_aGame', style: TextStyle(fontSize: 30),),
-
+                              Text(
+                                '$_aGame',
+                                style: TextStyle(fontSize: 30),
+                              ),
                             ],
                           ),
                         ),
@@ -205,13 +218,13 @@ class _PointCounterState extends State<PointCounter> {
                           child: Column(
                             children: [
                               Column(
-                                children: [
-                                  Text('reset',
-                                    style: TextStyle(fontSize: 20),),
-
+                                children: const [
+                                  Text(
+                                    'reset',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
                                 ],
                               ),
-
                             ],
                           ),
                         ),
@@ -219,15 +232,13 @@ class _PointCounterState extends State<PointCounter> {
                     ),
                   ],
                 ),
-
-
-              ), Expanded(
+              ),
+              Expanded(
                 flex: 2,
                 child: Column(
                   children: [
                     InkWell(
-
-                      onLongPress: () { //todo tapdownに対応したい
+                      onLongPress: () {
                         _decrementBGame();
                       },
                       child: Padding(
@@ -235,23 +246,32 @@ class _PointCounterState extends State<PointCounter> {
                         child: Container(
                           padding: const EdgeInsets.all(20),
                           color: Color.fromRGBO(1, 86, 117, 1),
-                          child: Text('$_bGame',
-                                    style: TextStyle(fontSize: 30),),
+                          child: Text(
+                            '$_bGame',
+                            style: TextStyle(fontSize: 30),
+                          ),
                         ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: IconButton(
-                        icon: Icon(Icons.note_add_outlined,size: 40,),
-                        tooltip:'ノートに記入',
-                        onPressed: () =>
-                            FirebaseFirestore.instance.collection('books').add({
-                              'title': '$bookTitle \n $_aGame  - $_bGame',
-                              'create': Timestamp.now(),
-                            }),
-                      ),
-                    ),
+                          icon: const Icon(
+                            Icons.note_add_outlined,
+                            size: 40,
+                          ),
+                          tooltip: 'ノートに記入',
+                          onPressed: () {
+                            noteLog(
+                                date, rivalNameText, bookTitle, _aGame, _bGame);
+                            Navigator.push<Route>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BookListPage(),
+                              ),
+                            );
+                          }),
+                    )
                   ],
                 ),
               ),
@@ -265,7 +285,7 @@ class _PointCounterState extends State<PointCounter> {
                       _incrementBPoint();
                     }
                   },
-                  onLongPress: () { //todo tapdownに対応したい
+                  onLongPress: () {
                     _decrementBPoint();
                   },
                   child: Padding(
@@ -275,9 +295,14 @@ class _PointCounterState extends State<PointCounter> {
                       color: Color.fromRGBO(1, 86, 117, 1),
                       child: Column(
                         children: [
-                          Text('$_bPoint', style: TextStyle(fontSize: 80),),
-                          Text('sotaro', style: TextStyle(fontSize: 30,
-                              color: pointColor),),
+                          Text(
+                            '$_bPoint',
+                            style: TextStyle(fontSize: 80),
+                          ),
+                          Text(
+                            rivalNameText,
+                            style: TextStyle(fontSize: 30, color: pointColor),
+                          ),
                         ],
                       ),
                     ),

@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:tt_diary/add_book/add_book_page.dart';
 import 'package:tt_diary/book_list/book_list_model.dart';
 import 'package:tt_diary/model/book.dart';
-import 'package:tt_diary/add_book/add_book_page.dart';
 
 class BookListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //向き固定
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([
-    //縦固定
-    DeviceOrientation.portraitUp,
-    //横固定
-    // DeviceOrientation.landscapeLeft,
+      //縦固定
+      DeviceOrientation.portraitUp,
     ]);
     return ChangeNotifierProvider<BookListModel>(
       create: (_) => BookListModel()..fetchBooks(),
@@ -27,14 +24,14 @@ class BookListPage extends StatelessWidget {
                 return IconButton(
                     icon: Icon(Icons.add_comment),
                     onPressed: () async {
-                      await Navigator.push(
+                      await model.fetchBooks();
+                      await Navigator.push<dynamic>(
                         context,
-                        MaterialPageRoute(
+                        MaterialPageRoute<dynamic>(
                           builder: (context) => AddBookPage(),
                           fullscreenDialog: true,
                         ),
                       );
-                      model.fetchBooks();
                     });
               }),
             ],
@@ -50,7 +47,7 @@ class BookListPage extends StatelessWidget {
                         icon: Icon(Icons.create),
                         iconSize: 20.0,
                         onPressed: () async {
-                          await Navigator.push(
+                          await Navigator.push<dynamic>(
                             context,
                             MaterialPageRoute<dynamic>(
                               builder: (context) => AddBookPage(
@@ -64,7 +61,7 @@ class BookListPage extends StatelessWidget {
                       ),
                       onLongPress: () async {
                         //todo delete
-                        await showDialog(
+                        await showDialog<BookListPage>(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
@@ -101,7 +98,7 @@ Future deleteBook(BuildContext context, BookListModel model, Book book) async {
   try {
     await model.deleteBook(book);
     await model.fetchBooks();
-    await showDialog(
+    await showDialog<BookListPage>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -118,7 +115,7 @@ Future deleteBook(BuildContext context, BookListModel model, Book book) async {
       },
     );
   } catch (e) {
-    await showDialog(
+    await showDialog<BookListPage>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(

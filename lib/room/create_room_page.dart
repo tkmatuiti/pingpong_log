@@ -5,8 +5,13 @@ import 'package:tt_diary/result/result_page.dart';
 import 'package:tt_diary/room/waiting_page.dart';
 
 enum tournamentOrLeague { tournament, league }
+enum singlesOrDoubles { singles, doubles }
+final todayRivalTextController = TextEditingController();
+final titleTextController = TextEditingController();
 
 class CreateRoomPage extends StatefulWidget {
+  const CreateRoomPage({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _State();
@@ -29,17 +34,14 @@ class _State extends State<CreateRoomPage> {
 
   @override
   Widget build(BuildContext context) {
-    //向き固定
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([
       //縦固定
       DeviceOrientation.portraitUp,
-      //横固定
-      // DeviceOrientation.landscapeLeft,
     ]);
     return Scaffold(
       appBar: AppBar(
-        title: Text('CreateRoomPage'),
+        title: const Text('CreateRoomPage'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -47,12 +49,13 @@ class _State extends State<CreateRoomPage> {
           child: Column(
             children: <Widget>[
               TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   icon: Icon(Icons.create),
                   labelText: 'タイトル',
                 ),
+                controller: titleTextController,
               ),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
                   icon: Icon(Icons.people),
                   labelText: '参加可能人数',
@@ -61,24 +64,24 @@ class _State extends State<CreateRoomPage> {
               ),
               GestureDetector(
                 onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-                child: SizedBox(
+                child: const SizedBox(
                   height: 20.0,
                   width: double.infinity,
                 ),
               ),
               GestureDetector(
                 onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-                child: Text(
+                child: const Text(
                   'ルール！',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               GestureDetector(
                 onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
                 child: RadioListTile(
-                  secondary: Icon(Icons.table_chart),
+                  secondary: const Icon(Icons.table_chart),
                   controlAffinity: ListTileControlAffinity.trailing,
-                  title: Text('トーナメント'),
+                  title: const Text('トーナメント'),
                   value: tournamentOrLeague.tournament,
                   groupValue: torOrLea,
                   onChanged: _onChanged,
@@ -87,9 +90,9 @@ class _State extends State<CreateRoomPage> {
               GestureDetector(
                 onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
                 child: RadioListTile(
-                  secondary: Icon(Icons.border_all),
+                  secondary: const Icon(Icons.border_all),
                   controlAffinity: ListTileControlAffinity.trailing,
-                  title: Text('リーグ戦'),
+                  title: const Text('リーグ戦'),
                   value: tournamentOrLeague.league,
                   groupValue: torOrLea,
                   onChanged: _onChanged,
@@ -98,8 +101,8 @@ class _State extends State<CreateRoomPage> {
               GestureDetector(
                 onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
                 child: CheckboxListTile(
-                  title: Text('シングルス'),
-                  secondary: Icon(Icons.person),
+                  title: const Text('シングルス'),
+                  secondary: const Icon(Icons.person),
                   controlAffinity: ListTileControlAffinity.leading,
                   value: _single,
                   onChanged: (bool value) {
@@ -116,8 +119,8 @@ class _State extends State<CreateRoomPage> {
               GestureDetector(
                 onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
                 child: CheckboxListTile(
-                  title: Text('ダブルス'),
-                  secondary: Icon(Icons.people),
+                  title: const Text('ダブルス'),
+                  secondary: const Icon(Icons.people),
                   controlAffinity: ListTileControlAffinity.leading,
                   value: _double,
                   onChanged: (bool value) {
@@ -132,8 +135,8 @@ class _State extends State<CreateRoomPage> {
                 ),
               ),
               CheckboxListTile(
-                title: Text('チーム'),
-                secondary: Icon(Icons.person),
+                title: const Text('チーム'),
+                secondary: const Icon(Icons.person),
                 controlAffinity: ListTileControlAffinity.leading,
                 value: _other,
                 onChanged: (bool value) {
@@ -146,9 +149,17 @@ class _State extends State<CreateRoomPage> {
                 activeColor: Colors.white24,
                 checkColor: Colors.cyanAccent,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Text(
+              TextField(
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.people_outline),
+                  border: InputBorder.none,
+                  hintText: '対戦相手の名前',
+                ),
+                controller: todayRivalTextController,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: const Text(
                   'ゲーム数',
                 ),
               ),
@@ -180,10 +191,12 @@ class _State extends State<CreateRoomPage> {
                     onPressed: () async => await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PointCounter(),
+                          builder: (context) => PointCounter(
+                              titleTextController.text,
+                              todayRivalTextController.text),
                         )),
-                    icon: Icon(Icons.person),
-                    label: Text('得点板'),
+                    icon: const Icon(Icons.person),
+                    label: const Text('得点板'),
                   ),
                 ),
               ),
@@ -197,8 +210,8 @@ class _State extends State<CreateRoomPage> {
                         MaterialPageRoute(
                           builder: (context) => ResultPage(),
                         )),
-                    icon: Icon(Icons.person),
-                    label: Text('試合結果を入力'),
+                    icon: const Icon(Icons.person),
+                    label: const Text('試合結果を入力'),
                   ),
                 ),
               ),
@@ -208,8 +221,8 @@ class _State extends State<CreateRoomPage> {
                     MaterialPageRoute(
                       builder: (context) => WaitingPage(),
                     )),
-                icon: Icon(Icons.flag),
-                label: Text('ルーム作成'),
+                icon: const Icon(Icons.flag),
+                label: const Text('ルーム作成'),
               ),
             ],
           ),

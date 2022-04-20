@@ -7,10 +7,9 @@ class AddBookModel extends ChangeNotifier {
 
   Future addBookToFirebase() async {
     if (bookTitle.isEmpty) {
-      throw ('タイトルを入力してください！');
+      throw 'タイトルを入力してください！';
     }
-
-    FirebaseFirestore.instance.collection('books').add({
+    FirebaseFirestore.instance.collection('books').add(<String, dynamic>{
       'title': bookTitle,
       'create': Timestamp.now(),
     });

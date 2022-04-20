@@ -44,7 +44,7 @@ class SignUpPage extends StatelessWidget {
                         onPressed: () async {
                           try {
                             await model.signUp();
-                            showDialog(
+                            await showDialog<SignUpPage>(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
@@ -61,7 +61,7 @@ class SignUpPage extends StatelessWidget {
                               },
                             );
                           } catch (e) {
-                            await showDialog(
+                            await showDialog<SignUpPage>(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
@@ -93,7 +93,7 @@ class SignUpPage extends StatelessWidget {
     try {
       //add book to　firestore
       await model.addBookToFirebase();
-      await showDialog(
+      await showDialog<SignUpPage>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -111,7 +111,7 @@ class SignUpPage extends StatelessWidget {
       );
       Navigator.of(context).pop();
     } catch (e) {
-      showDialog(
+      await showDialog<SignUpPage>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -129,44 +129,4 @@ class SignUpPage extends StatelessWidget {
       );
     }
   }
-//todo
-//   Future updateBook(AddBookModel model, BuildContext context) async {
-//     try {
-//       await model.updateBook(book);
-//       await showDialog(
-//         context: context,
-//         builder: (BuildContext context) {
-//           return AlertDialog(
-//             title: Text('UPDATE!'),
-//             actions: <Widget>[
-//               FlatButton(
-//                 child: Text('OK'),
-//                 onPressed: () {
-//                   Navigator.of(context).pop();
-//                 },
-//               ),
-//             ],
-//           );
-//         },
-//       );
-//       Navigator.of(context).pop();
-//     } catch (e) {
-//       showDialog(
-//         context: context,
-//         builder: (BuildContext context) {
-//           return AlertDialog(
-//             title: Text(e.toString()),
-//             actions: <Widget>[
-//               FlatButton(
-//                 child: Text('OK'),
-//                 onPressed: () {
-//                   Navigator.of(context).pop();
-//                 },
-//               ),
-//             ],
-//           );
-//         },
-//       );
-//     }
-//   }
 }

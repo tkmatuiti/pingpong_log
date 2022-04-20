@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationModel extends ChangeNotifier {
-
   int _selectedIndex = 0;
 
   // getterとsetterを指定しています
   // setのときにnotifyListeners()を呼ぶことアイコンタップと同時に画面を更新しています。
-  get selectedIndex  => _selectedIndex;
+  get selectedIndex => _selectedIndex;
 
   set selectedIndex(int index) {
     _selectedIndex = index;
